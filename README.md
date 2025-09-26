@@ -17,9 +17,9 @@ If you're looking for an end-to-end solution, with the transport layer included,
 then you should use one of these alternative packages instead:
 
   * To send messages over HTTP(S), use the
-    [php-json-rpc-http](https://github.com/HCS-LLC/php-json-rpc-http) package.
+    [php-json-rpc-http](https://github.com/hcs-llc/php-json-rpc-http) package.
   * To send messages over SSH, use the
-    [php-json-rpc-ssh](https://github.com/HCS-LLC/php-json-rpc-ssh) package.
+    [php-json-rpc-ssh](https://github.com/hcs-llc/php-json-rpc-ssh) package.
 
 ## Features
 
@@ -54,7 +54,7 @@ $reply = $server->reply($message);
 // reply: {"jsonrpc":"2.0","result":3,"id":1}
 ```
 
-*See the [examples](https://github.com/HCS-LLC/php-json-rpc/tree/master/examples) folder for full working examples.*
+*See the [examples](https://github.com/hcs-llc/php-json-rpc/tree/master/examples) folder for full working examples.*
 
 ## Requirements
 
@@ -67,10 +67,10 @@ This package is released under an open-source license: [LGPL-3.0](https://www.gn
 ## Installation
 
 If you're using [Composer](https://getcomposer.org/), you can include this library
-([HCS-LLC/php-json-rpc](https://packagist.org/packages/HCS-LLC/php-json-rpc)) like this:
+([hcs-llc/php-json-rpc](https://packagist.org/packages/hcs-llc/php-json-rpc)) like this:
 
 ```
-composer require "HCS-LLC/php-json-rpc"
+composer require "hcs-llc/php-json-rpc"
 ```
 
 ## Getting started
@@ -95,7 +95,7 @@ You can run the suite of unit tests from the project directory like this:
 ## Changelog
 
 See what has changed:
-[Changelog](https://github.com/HCS-LLC/php-json-rpc/blob/master/CHANGELOG.md)
+[Changelog](https://github.com/hcs-llc/php-json-rpc/blob/master/CHANGELOG.md)
 
 ## Original Author
 
