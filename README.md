@@ -1,5 +1,6 @@
 # JSON-RPC for PHP
 
+> **Note:** This is a maintained fork of the original [datto/json-rpc](https://github.com/datto/php-json-rpc) package, which has been abandoned. This repository will be kept up-to-date with bug fixes and new features.
 
 ## Overview
 
@@ -14,19 +15,18 @@ transport layer to carry your messages: This package gives you that option.
 
 If you're looking for an end-to-end solution, with the transport layer included,
 then you should use one of these alternative packages instead:
-* To send messages over HTTP(S), use the
-[php-json-rpc-http](https://github.com/datto/php-json-rpc-http) package.
-* To send messages over SSH, use the
-[php-json-rpc-ssh](https://github.com/datto/php-json-rpc-ssh) package.
 
+  * To send messages over HTTP(S), use the
+    [php-json-rpc-http](https://github.com/HCS-LLC/php-json-rpc-http) package.
+  * To send messages over SSH, use the
+    [php-json-rpc-ssh](https://github.com/HCS-LLC/php-json-rpc-ssh) package.
 
 ## Features
 
-* Correct: fully compliant with the [JSON-RPC 2.0 specifications](http://www.jsonrpc.org/specification) (100% unit-test coverage)
-* Flexible: you can use your own code to evaluate the JSON-RPC method strings
-* Minimalistic: extremely lightweight
-* Ready to use, with working examples
-
+  * Correct: fully compliant with the [JSON-RPC 2.0 specifications](http://www.jsonrpc.org/specification) (100% unit-test coverage)
+  * Flexible: you can use your own code to evaluate the JSON-RPC method strings
+  * Minimalistic: extremely lightweight
+  * Ready to use, with working examples
 
 ## Examples
 
@@ -54,53 +54,49 @@ $reply = $server->reply($message);
 // reply: {"jsonrpc":"2.0","result":3,"id":1}
 ```
 
-*See the [examples](https://github.com/datto/php-json-rpc/tree/master/examples) folder for full working examples.*
-
+*See the [examples](https://github.com/HCS-LLC/php-json-rpc/tree/master/examples) folder for full working examples.*
 
 ## Requirements
 
-* PHP >= 7.0
-
+  * PHP \>= 7.0
 
 ## License
 
 This package is released under an open-source license: [LGPL-3.0](https://www.gnu.org/licenses/lgpl-3.0.html)
 
-
 ## Installation
 
 If you're using [Composer](https://getcomposer.org/), you can include this library
-([datto/json-rpc](https://packagist.org/packages/datto/json-rpc)) like this:
-```
-composer require "datto/json-rpc"
-```
+([HCS-LLC/php-json-rpc](https://packagist.org/packages/HCS-LLC/php-json-rpc)) like this:
 
+```
+composer require "HCS-LLC/php-json-rpc"
+```
 
 ## Getting started
 
-1. Try the examples. You can run the examples from the project directory like this:
-	```
-	php examples/client.php
-	php examples/server.php
-	```
+1.  Try the examples. You can run the examples from the project directory like this:
 
-2. Take a look at the code "examples/src"—then replace it with your own!
+    ```
+    php examples/client.php
+    php examples/server.php
+    ```
 
+2.  Take a look at the code "examples/src"—then replace it with your own!
 
 ## Unit tests
 
 You can run the suite of unit tests from the project directory like this:
+
 ```
 ./vendor/bin/phpunit
 ```
 
-
 ## Changelog
 
 See what has changed:
-[Changelog](https://github.com/datto/php-json-rpc/blob/master/CHANGELOG.md)
+[Changelog](https://github.com/HCS-LLC/php-json-rpc/blob/master/CHANGELOG.md)
 
-
-## Author
+## Original Author
 
 [Spencer Mortensen](http://spencermortensen.com/contact/)

@@ -1,16 +1,15 @@
 {
-    "name": "datto/json-rpc",
+    "name": "hcs-llc/php-json-rpc",
     "type": "library",
-    "description": "Fully unit-tested JSON-RPC 2.0 for PHP",
+    "description": "A maintained fork of the datto/json-rpc package. Fully unit-tested JSON-RPC 2.0 for PHP.",
     "keywords": ["php", "json", "rpc", "jsonrpc", "json-rpc", "php-json-rpc"],
-    "homepage": "http://datto.com",
-    "license": "LGPL-3.0+",
+    "homepage": "https://www.hawkinscomputerservices.com/",
+    "license": "LGPL-3.0-or-later",
     "authors": [
         {
-            "name": "Spencer Mortensen",
-            "email": "smortensen@datto.com",
-            "homepage": "http://spencermortensen.com",
-            "role": "Developer"
+            "name": "Hawkins Computer Services",
+            "homepage": "https://www.hawkinscomputerservices.com/",
+            "role": "Maintainer"
         }
     ],
     "require": {
