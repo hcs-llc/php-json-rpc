@@ -2,6 +2,7 @@
 
 /**
  * Copyright (C) 2015 Datto, Inc.
+ * Copyright (C) 2025 Hawkins Computer Services, LLC
  *
  * This file is part of PHP JSON-RPC.
  *
@@ -18,8 +19,8 @@
  * along with PHP JSON-RPC. If not, see <http://www.gnu.org/licenses/>.
  *
  * @author Spencer Mortensen <smortensen@datto.com>
+ * @author Hawkins Computer Services, LLC <support@hawkinscomputerservices.com>
  * @license http://www.gnu.org/licenses/lgpl-3.0.html LGPL-3.0
- * @copyright 2015 Datto, Inc.
  */
 
 namespace Datto\JsonRpc\Tests;
@@ -296,9 +297,15 @@ class ServerTest extends TestCase
         $server = new Server(new Api());
         $actualJsonOutput = $server->reply($input);
 
+        if ($expectedJsonOutput === 'null') {
+            $this->assertNull($actualJsonOutput);
+            return;
+        }
+
         $expectedOutput = json_decode($expectedJsonOutput, true);
         $actualOutput = json_decode($actualJsonOutput, true);
 
         $this->assertSame($expectedOutput, $actualOutput);
     }
 }
+
