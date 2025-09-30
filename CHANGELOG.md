@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [7.0.0] - 2025-09-30
+### Added
+ - Maintained fork established by HCS-LLC.
+ - Added support for php 8.4
+ - Added strict parameter and return types throughout the library.
+
+### Changed
+ - **BREAKING:** Dropped support for PHP versions older than 7.4. The new requirement is `^7.4 || ^8.0`.
+ - Modernized codebase to use PHP 7.4+ features.
+ - Updated development dependencies, including PHPUnit to version 9.5.
+
+### Removed
+ - **BREAKING:** Support for PHP 7.0, 7.1, 7.2, and 7.3.
+
 ## [6.1.0] - 2020-02-28
 ### Added
  - The "Client::preEncode" and "Client::postDecode" methods have been added to allow
