@@ -19,7 +19,7 @@
  * along with PHP JSON-RPC. If not, see <http://www.gnu.org/licenses/>.
  *
  * @author Spencer Mortensen <smortensen@datto.com>
- * @author Hawkins Computer Services, LLC <support@hawkinscomputerservices.com>
+ * @author Hawkins Computer Services, LLC <dev@hawkinscomputerservices.com>
  * @license http://www.gnu.org/licenses/lgpl-3.0.html LGPL-3.0
  */
 

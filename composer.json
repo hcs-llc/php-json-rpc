@@ -7,26 +7,33 @@
     "license": "LGPL-3.0-or-later",
     "authors": [
         {
-            "name": "Hawkins Computer Services",
+            "name": "Hawkins Computer Services, LLC",
+            "email": "dev@hawkinscomputerservices.com",
             "homepage": "https://www.hawkinscomputerservices.com/",
             "role": "Maintainer"
+        },
+        {
+            "name": "Spencer Mortensen",
+            "email": "smortensen@datto.com",
+            "homepage": "http://spencermortensen.com",
+            "role": "Original Developer"
         }
     ],
     "require": {
-        "php": ">=7.0.0"
+        "php": "^7.4 || ^8.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5"
     },
     "autoload": {
         "psr-4": {
-            "Datto\\JsonRpc\\": "src"
+            "Datto\\JsonRpc\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
             "Datto\\JsonRpc\\Examples\\": "examples/src",
-            "Datto\\JsonRpc\\Tests\\": "tests"
+            "Datto\\JsonRpc\\Tests\\": "tests/"
         }
     }
 }

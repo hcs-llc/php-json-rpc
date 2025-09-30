@@ -2,24 +2,26 @@
 
 /**
  * Copyright (C) 2015 Datto, Inc.
+ * Copyright (C) 2025 Hawkins Computer Services, LLC
  *
  * This file is part of PHP JSON-RPC.
  *
- * PHP JSON-RPC is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License, version 3,
- * as published by the Free Software Foundation.
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
- * PHP JSON-RPC is distributed in the hope that it will be useful,
+ * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with PHP JSON-RPC. If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  * @author Spencer Mortensen <smortensen@datto.com>
+ * @author Hawkins Computer Services, LLC <dev@hawkinscomputerservices.com>
  * @license http://www.gnu.org/licenses/lgpl-3.0.html LGPL-3.0
- * @copyright 2015 Datto, Inc.
  */
 
 namespace Datto\JsonRpc;
@@ -31,13 +33,11 @@ use ErrorException;
 
 /**
  * @link http://www.jsonrpc.org/specification JSON-RPC 2.0 Specifications
- *
- * @package Datto\JsonRpc
  */
 class Client
 {
     /** @var string */
-    const VERSION = '2.0';
+    private const VERSION = '2.0';
 
     /** @var array */
     private $requests;
@@ -48,9 +48,9 @@ class Client
     }
 
     /**
-     * Forget any unsent queries or notifications
+     * Forget any unsent queries or notifications.
      */
-    public function reset()
+    public function reset(): void
     {
         $this->requests = [];
     }
@@ -58,12 +58,10 @@ class Client
     /**
      * @param mixed $id
      * @param string $method
-     * @param array $arguments|null
-     *
+     * @param array|null $arguments
      * @return self
-     * Returns the object handle (so you can chain method calls, if you like)
      */
-    public function query($id, string $method, array $arguments = null): self
+    public function query($id, string $method, ?array $arguments = null): self
     {
         $request = self::getRequest($method, $arguments);
         $request['id'] = $id;
@@ -75,12 +73,10 @@ class Client
 
     /**
      * @param string $method
-     * @param array $arguments
-     *
+     * @param array|null $arguments
      * @return self
-     * Returns the object handle (so you can chain method calls, if you like)
      */
-    public function notify($method, array $arguments = null): self
+    public function notify(string $method, ?array $arguments = null): self
     {
         $request = self::getRequest($method, $arguments);
 
@@ -90,16 +86,12 @@ class Client
     }
 
     /**
-     * Encodes the request(s) as a valid JSON-RPC 2.0 string
-     *
-     * This also resets the Client, so you can use the same Client object
-     * to perform more queries.
+     * Encodes the request(s) as a valid JSON-RPC 2.0 string.
+     * This also resets the Client.
      *
      * @return string|null
-     * Returns a valid JSON-RPC 2.0 message string
-     * Returns null if there is nothing to encode
      */
-    public function encode()
+    public function encode(): ?string
     {
         $input = $this->preEncode();
 
@@ -112,22 +104,12 @@ class Client
 
     /**
      * Encodes the request(s) as a JSON-RPC 2.0 array, but does NOT perform
-     * the final "json_encode" step which is necessary to turn the array
-     * into a valid JSON-RPC 2.0 string. This gives you the opportunity
-     * to inspect or modify the raw data, or to alter the encoding algorithm.
-     *
-     * When you're finished manipulating the request, you are responsible for
-     * JSON-encoding the value to construct the final JSON-RPC 2.0 string.
-     * @see self::encode()
-     *
-     * This also resets the Client, so you can use the same Client object
-     * to perform more queries.
+     * the final "json_encode" step.
+     * This also resets the Client.
      *
      * @return array|null
-     * Returns a JSON-RPC 2.0 request array
-     * Returns null if no requests have been queued
      */
-    public function preEncode()
+    public function preEncode(): ?array
     {
         $n = count($this->requests);
 
@@ -147,25 +129,19 @@ class Client
     }
 
     /**
-     * Translates a JSON-RPC 2.0 server reply into an array of "Response"
-     * objects.
+     * Translates a JSON-RPC 2.0 server reply into an array of "Response" objects.
      *
      * @param string $json
-     * String reply from a JSON-RPC 2.0 server
-     *
      * @return Response[]
-     * Returns a zero-indexed array of "Response" objects
-     *
      * @throws ErrorException
-     * Throws an "ErrorException" if the reply was not well-formed
      */
-    public function decode(string $json)
+    public function decode(string $json): array
     {
         $input = json_decode($json, true);
 
         $errorCode = json_last_error();
 
-        if ($errorCode !== 0) {
+        if ($errorCode !== JSON_ERROR_NONE) {
             $errorMessage = json_last_error_msg();
             $jsonException = new ErrorException($errorMessage, $errorCode);
 
@@ -177,29 +153,13 @@ class Client
     }
 
     /**
-     * Translates a JSON-decoded server reply into an array of "Response"
-     * objects.
+     * Translates a JSON-decoded server reply into an array of "Response" objects.
      *
-     * This gives you the opportunity to use your own modified "json_decode"
-     * algorithm, or to inspect or modify the server response before it is
-     * processed under the JSON-RPC 2.0 specifications. This can be handy
-     * if you're tweaking or extending the JSON-RPC 2.0 format.
-     *
-     * Before calling this method, you are responsible for JSON-decoding
-     * the server reply string. You should have that decoded array value
-     * to use as the input here.
-     * @see self::decode()
-     * 
      * @param mixed $input
-     * An array containing the JSON-decoded server reply
-     *
      * @return Response[]
-     * Returns a zero-indexed array of "Response" objects
-     *
      * @throws ErrorException
-     * Throws an "ErrorException" if the reply was not well-formed
      */
-    public function postDecode($input)
+    public function postDecode($input): array
     {
         if (!$this->getResponses($input, $responses)) {
             $valueText = self::getValueText($input);
@@ -209,7 +169,7 @@ class Client
         return $responses;
     }
 
-    private static function getRequest(string $method, array $arguments = null): array
+    private static function getRequest(string $method, ?array $arguments = null): array
     {
         $request = [
             'jsonrpc' => self::VERSION,
@@ -238,7 +198,7 @@ class Client
         return var_export($value, true);
     }
 
-    private function getResponses($input, array &$responses = null): bool
+    private function getResponses($input, ?array &$responses = null): bool
     {
         if ($this->getResponse($input, $response)) {
             $responses = [$response];
@@ -248,13 +208,13 @@ class Client
         return $this->getBatchResponses($input, $responses);
     }
 
-    private function getResponse($input, &$response)
+    private function getResponse($input, &$response): bool
     {
         return $this->getResultResponse($input, $response) ||
             $this->getErrorResponse($input, $response);
     }
 
-    private function getResultResponse($input, &$response)
+    private function getResultResponse($input, &$response): bool
     {
         if (
             is_array($input) &&
@@ -270,12 +230,12 @@ class Client
         return false;
     }
 
-    private function getVersion(array $input)
+    private function getVersion(array $input): bool
     {
         return isset($input['jsonrpc']) && ($input['jsonrpc'] === self::VERSION);
     }
 
-    private function getId(array $input, &$id)
+    private function getId(array $input, &$id): bool
     {
         if (array_key_exists('id', $input)) {
             $id = $input['id'];
@@ -285,7 +245,7 @@ class Client
         return false;
     }
 
-    private function getResult(array $input, &$value)
+    private function getResult(array $input, &$value): bool
     {
         if (array_key_exists('result', $input)) {
             $value = $input['result'];
@@ -295,7 +255,7 @@ class Client
         return false;
     }
 
-    private function getErrorResponse(array &$input, &$response)
+    private function getErrorResponse($input, &$response): bool
     {
         if (
             is_array($input) &&
@@ -311,7 +271,7 @@ class Client
         return false;
     }
 
-    private function getError(array $input, &$code, &$message, &$data)
+    private function getError(array $input, &$code, &$message, &$data): bool
     {
         $error = $input['error'] ?? null;
 
@@ -321,46 +281,43 @@ class Client
             $this->getErrorData($error, $data);
     }
 
-    private function getErrorCode(array $input, &$code)
+    private function getErrorCode(array $input, &$code): bool
     {
         $code = $input['code'] ?? null;
 
         return is_int($code);
     }
 
-    private function getErrorMessage(array $input, &$message)
+    private function getErrorMessage(array $input, &$message): bool
     {
         $message = $input['message'] ?? null;
 
         return is_string($message);
     }
 
-    private function getErrorData(array $input, &$data)
+    private function getErrorData(array $input, &$data): bool
     {
         $data = $input['data'] ?? null;
 
         return true;
     }
 
-    private function getBatchResponses($input, &$responses)
+    private function getBatchResponses($input, &$responses): bool
     {
-        if (!is_array($input)) {
+        if (!is_array($input) || !isset($input[0])) {
             return false;
         }
 
         $responses = [];
-        $i = 0;
 
-        foreach ($input as $key => $value) {
-            if ($key !== $i++) {
+        foreach ($input as $value) {
+            if (!$this->getResponse($value, $response)) {
                 return false;
             }
-
-            if (!$this->getResponse($value, $responses[])) {
-                return false;
-            }
+            $responses[] = $response;
         }
 
         return true;
     }
 }
+
