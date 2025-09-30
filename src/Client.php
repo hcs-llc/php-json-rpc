@@ -6,18 +6,17 @@
  *
  * This file is part of PHP JSON-RPC.
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * PHP JSON-RPC is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License, version 3,
+ * as published by the Free Software Foundation.
  *
- * This program is distributed in the hope that it will be useful,
+ * PHP JSON-RPC is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * along with PHP JSON-RPC. If not, see <http://www.gnu.org/licenses/>.
  *
  * @author Spencer Mortensen <smortensen@datto.com>
  * @author Hawkins Computer Services, LLC <dev@hawkinscomputerservices.com>
@@ -33,11 +32,13 @@ use ErrorException;
 
 /**
  * @link http://www.jsonrpc.org/specification JSON-RPC 2.0 Specifications
+ *
+ * @package Datto\JsonRpc
  */
 class Client
 {
     /** @var string */
-    private const VERSION = '2.0';
+    const VERSION = '2.0';
 
     /** @var array */
     private $requests;
@@ -60,6 +61,7 @@ class Client
      * @param string $method
      * @param array|null $arguments
      * @return self
+     * Returns the object handle (so you can chain method calls, if you like)
      */
     public function query($id, string $method, ?array $arguments = null): self
     {
@@ -75,6 +77,7 @@ class Client
      * @param string $method
      * @param array|null $arguments
      * @return self
+     * Returns the object handle (so you can chain method calls, if you like)
      */
     public function notify(string $method, ?array $arguments = null): self
     {
@@ -86,10 +89,14 @@ class Client
     }
 
     /**
-     * Encodes the request(s) as a valid JSON-RPC 2.0 string.
-     * This also resets the Client.
+     * Encodes the request(s) as a valid JSON-RPC 2.0 string
+     *
+     * This also resets the Client, so you can use the same Client object
+     * to perform more queries.
      *
      * @return string|null
+     * Returns a valid JSON-RPC 2.0 message string
+     * Returns null if there is nothing to encode
      */
     public function encode(): ?string
     {
@@ -104,10 +111,20 @@ class Client
 
     /**
      * Encodes the request(s) as a JSON-RPC 2.0 array, but does NOT perform
-     * the final "json_encode" step.
-     * This also resets the Client.
+     * the final "json_encode" step which is necessary to turn the array
+     * into a valid JSON-RPC 2.0 string. This gives you the opportunity
+     * to inspect or modify the raw data, or to alter the encoding algorithm.
+     *
+     * When you're finished manipulating the request, you are responsible for
+     * JSON-encoding the value to construct the final JSON-RPC 2.0 string.
+     * @see self::encode()
+     *
+     * This also resets the Client, so you can use the same Client object
+     * to perform more queries.
      *
      * @return array|null
+     * Returns a JSON-RPC 2.0 request array
+     * Returns null if no requests have been queued
      */
     public function preEncode(): ?array
     {
@@ -129,11 +146,17 @@ class Client
     }
 
     /**
-     * Translates a JSON-RPC 2.0 server reply into an array of "Response" objects.
+     * Translates a JSON-RPC 2.0 server reply into an array of "Response"
+     * objects.
      *
      * @param string $json
+     * String reply from a JSON-RPC 2.0 server
+     *
      * @return Response[]
+     * Returns a zero-indexed array of "Response" objects
+     *
      * @throws ErrorException
+     * Throws an "ErrorException" if the reply was not well-formed
      */
     public function decode(string $json): array
     {
@@ -153,11 +176,27 @@ class Client
     }
 
     /**
-     * Translates a JSON-decoded server reply into an array of "Response" objects.
+     * Translates a JSON-decoded server reply into an array of "Response"
+     * objects.
+     *
+     * This gives you the opportunity to use your own modified "json_decode"
+     * algorithm, or to inspect or modify the server response before it is
+     * processed under the JSON-RPC 2.0 specifications. This can be handy
+     * if you're tweaking or extending the JSON-RPC 2.0 format.
+     *
+     * Before calling this method, you are responsible for JSON-decoding
+     * the server reply string. You should have that decoded array value
+     * to use as the input here.
+     * @see self::decode()
      *
      * @param mixed $input
+     * An array containing the JSON-decoded server reply
+     *
      * @return Response[]
+     * Returns a zero-indexed array of "Response" objects
+     *
      * @throws ErrorException
+     * Throws an "ErrorException" if the reply was not well-formed
      */
     public function postDecode($input): array
     {
